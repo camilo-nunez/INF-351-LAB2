@@ -114,8 +114,7 @@ __global__ void kernel2(float *R, float *G, float* B, float *Rout, float *Gout, 
     int tId= threadIdx.x+blockIdx.x*blockDim.x;
     int par, impar;
     int shift=(M*N)/2;
-    
-    
+
     if(tId<M*N){
         
         if(blockIdx.x < 2){
@@ -320,10 +319,12 @@ int main(int argc, char **argv){
     Ghostout = new float[M*N];
     Bhostout = new float[M*N];
 
-    /*
+
+    std::cout <<"Pregunta 3" << std::endl;
     
     /*Segundo Kernel*/
-    /*for( X=1; X<1024; X*=2){
+
+    for( X=1; X<1024; X*=2){
         ss.str("");
         cudaEventCreate(&ct1);
         cudaEventCreate(&ct2);
@@ -333,8 +334,8 @@ int main(int argc, char **argv){
         cudaEventSynchronize(ct2);
         cudaEventElapsedTime(&dt, ct1, ct2);
         cudaDeviceSynchronize();
-        std::cout << "Tiempo GPU: " << dt << "[ms]" << std::endl;
-        ss << "imgGPU2-X_ " << X << ".txt";
+        std::cout <<"X:"<< X<< "-Tiempo GPU: " << dt << "[ms]" << std::endl;
+        ss << "imgGPU-P3-X_ " << X << ".txt";
         s = ss.str();
         cudaMemcpy(Rhostout, Rdevout, M * N * sizeof(float), cudaMemcpyDeviceToHost);
         cudaMemcpy(Ghostout, Gdevout, M * N * sizeof(float), cudaMemcpyDeviceToHost);
@@ -350,8 +351,9 @@ int main(int argc, char **argv){
     delete[] Rhostout; delete[] Ghostout; delete[] Bhostout;
     Rhostout = new float[M*N];
     Ghostout = new float[M*N];
-    Bhostout = new float[M*N];*/
+    Bhostout = new float[M*N];
 
+    /*
     
     /*Tercer Kernel*/
     
@@ -380,31 +382,6 @@ int main(int argc, char **argv){
         Write(Rhostout, Ghostout, Bhostout, M, N, s.c_str());
     }
     */
-
-    /*
-    ss.str("");
-    cudaEventCreate(&ct1);
-    cudaEventCreate(&ct2);
-    cudaEventRecord(ct1);
-    kernel2<<<grid_size, block_size>>>(Rdev, Gdev, Bdev, Rdevout,Gdevout,Bdevout, M, N, 2); // Agregar parametros!
-    cudaEventRecord(ct2);
-    cudaEventSynchronize(ct2);
-    cudaEventElapsedTime(&dt, ct1, ct2);
-    cudaDeviceSynchronize();
-    std::cout << "Tiempo GPU: " << dt << "[ms]" << std::endl;
-    ss << "imgGPU222-X_ " << 64 << ".txt";
-    s = ss.str();
-    cudaMemcpy(Rhostout, Rdevout, M * N * sizeof(float), cudaMemcpyDeviceToHost);
-    cudaMemcpy(Ghostout, Gdevout, M * N * sizeof(float), cudaMemcpyDeviceToHost);
-    cudaMemcpy(Bhostout, Bdevout, M * N * sizeof(float), cudaMemcpyDeviceToHost);
-    Write(Rhostout, Ghostout, Bhostout, M, N, s.c_str());
-
-    cudaFree(Rdev); cudaFree(Gdev); cudaFree(Bdev);
-    cudaFree(Rdevout); cudaFree(Gdevout); cudaFree(Bdevout);
-    delete[] Rhost; delete[] Ghost; delete[] Bhost;
-    delete[] Rhostout; delete[] Ghostout; delete[] Bhostout;
-    */
-
 
 
     return 0;
