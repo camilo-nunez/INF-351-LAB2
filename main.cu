@@ -245,6 +245,8 @@ int main(int argc, char **argv){
     /*
      *  Parte CPU
     */
+    std::cout <<"Pregunta 1" << std::endl;
+
     Rhostout = new float[M*N];
     Ghostout = new float[M*N];
     Bhostout = new float[M*N]; 
@@ -260,7 +262,7 @@ int main(int argc, char **argv){
         t2 = clock();
         ms = 1000.0 * (double)(t2 - t1) / CLOCKS_PER_SEC;
         std::cout <<"X:"<< X<< "-Tiempo CPU: " << ms << "[ms]" << std::endl;
-        ss << "imgCPU-X_ " << X << ".txt";
+        ss << "imgCPU-P1-X_ " << X << ".txt";
         s = ss.str();
         Write(Rhostout, Ghostout, Bhostout, M, N, s.c_str());
     }
@@ -290,6 +292,9 @@ int main(int argc, char **argv){
     Ghostout = new float[M*N];
     Bhostout = new float[M*N];
 
+
+    std::cout <<"Pregunta 2" << std::endl;
+
     /* Primer Kernel */
     for( X=1; X<1024; X*=2){
         ss.str("");
@@ -302,7 +307,7 @@ int main(int argc, char **argv){
         cudaEventSynchronize(ct2);
         cudaEventElapsedTime(&dt, ct1, ct2);
         std::cout <<"X:"<< X<< "-Tiempo GPU: " << dt << "[ms]" << std::endl;
-        ss << "imgGPU1-X_ " << X << ".txt";
+        ss << "imgGPU-P2-X_ " << X << ".txt";
         s = ss.str();
         cudaMemcpy(Rhostout, Rdevout, M * N * sizeof(float), cudaMemcpyDeviceToHost);
         cudaMemcpy(Ghostout, Gdevout, M * N * sizeof(float), cudaMemcpyDeviceToHost);
@@ -376,7 +381,7 @@ int main(int argc, char **argv){
     }
     */
 
-    
+    /*
     ss.str("");
     cudaEventCreate(&ct1);
     cudaEventCreate(&ct2);
@@ -398,6 +403,7 @@ int main(int argc, char **argv){
     cudaFree(Rdevout); cudaFree(Gdevout); cudaFree(Bdevout);
     delete[] Rhost; delete[] Ghost; delete[] Bhost;
     delete[] Rhostout; delete[] Ghostout; delete[] Bhostout;
+    */
 
 
 
