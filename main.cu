@@ -261,7 +261,7 @@ int main(int argc, char **argv){
         t2 = clock();
         ms = 1000.0 * (double)(t2 - t1) / CLOCKS_PER_SEC;
         std::cout <<"X:"<< X<< "-Tiempo CPU: " << ms << "[ms]" << std::endl;
-        ss << "imgCPU-P1-X_ " << X << ".txt";
+        ss << "imgCPU-P1-X_" << X << ".txt";
         s = ss.str();
         Write(Rhostout, Ghostout, Bhostout, M, N, s.c_str());
     }
@@ -306,7 +306,7 @@ int main(int argc, char **argv){
         cudaEventSynchronize(ct2);
         cudaEventElapsedTime(&dt, ct1, ct2);
         std::cout <<"X:"<< X<< "-Tiempo GPU: " << dt << "[ms]" << std::endl;
-        ss << "imgGPU-P2-X_ " << X << ".txt";
+        ss << "imgGPU-P2-X_" << X << ".txt";
         s = ss.str();
         cudaMemcpy(Rhostout, Rdevout, M * N * sizeof(float), cudaMemcpyDeviceToHost);
         cudaMemcpy(Ghostout, Gdevout, M * N * sizeof(float), cudaMemcpyDeviceToHost);
@@ -335,7 +335,7 @@ int main(int argc, char **argv){
         cudaEventElapsedTime(&dt, ct1, ct2);
         cudaDeviceSynchronize();
         std::cout <<"X:"<< X<< "-Tiempo GPU: " << dt << "[ms]" << std::endl;
-        ss << "imgGPU-P3-X_ " << X << ".txt";
+        ss << "imgGPU-P3-X_" << X << ".txt";
         s = ss.str();
         cudaMemcpy(Rhostout, Rdevout, M * N * sizeof(float), cudaMemcpyDeviceToHost);
         cudaMemcpy(Ghostout, Gdevout, M * N * sizeof(float), cudaMemcpyDeviceToHost);
