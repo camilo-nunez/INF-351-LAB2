@@ -240,7 +240,7 @@ int main(int argc, char **argv){
     
     // Lectura de datos
     //Read(&Rhost, &Ghost, &Bhost, &M, &N, "imagen.txt");
-    Read_scanf(&Rhost, &Ghost, &Bhost, &M, &N, &L);
+    Read_scanf(&Rhost, &Ghost, &Bhost, &M, &N);
     
 
     /*
