@@ -6,7 +6,7 @@
 * Todos los archivos primarios (.cu)
 * Este README
 * Makefile
-* Entradas{1,2}/imagenes{1,2,3,4,5,6}.txt
+* imagen.txt
 
 ## Dependencias
 ---
@@ -27,7 +27,7 @@ $ time ./output
 
 en caso de usar un archivo de entrada, utilizar:
 
-$ time ./output < Entradas{1,2}/imagenes{1,2,3,4,5,6}.txt
+$ time ./output < imagen.txt
 
 Se recomienda eliminar cualquier dependecia antes y despues de la ejecucion:
 
