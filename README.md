@@ -1,4 +1,4 @@
-# INF-351-LAB1
+# INF-351-LAB2
 
 
 ## Incluye
