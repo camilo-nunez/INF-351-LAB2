@@ -238,10 +238,13 @@ int main(int argc, char **argv){
     float *Rdevout, *Gdevout, *Bdevout;
 
     
-    Read(&Rhost, &Ghost, &Bhost, &M, &N, "imagen.txt");
+    // Lectura de datos
+    //Read(&Rhost, &Ghost, &Bhost, &M, &N, "imagen.txt");
+    Read_scanf(&Rhost, &Ghost, &Bhost, &M, &N, &L);
+    
+
     /*
      *  Parte CPU
-     *
     */
     Rhostout = new float[M*N];
     Ghostout = new float[M*N];
@@ -250,9 +253,6 @@ int main(int argc, char **argv){
     std::stringstream ss;    
     std::string s;
     
-    //FILE *fp;
-    //fp = fopen('tiempos.txt', "w");
-    //fprintf(fp, "X;1;2;4;8;16;32;64;128;256;512");
     
     for(int X=1; X<1024; X*=2){
         ss.str("");
@@ -260,7 +260,7 @@ int main(int argc, char **argv){
         funcionCPU(Rhost, Ghost, Bhost, M, N, X,Rhostout, Ghostout, Bhostout); // Agregar parametros!
         t2 = clock();
         ms = 1000.0 * (double)(t2 - t1) / CLOCKS_PER_SEC;
-        //std::cout <<"X:"<< X<< "-Tiempo CPU: " << ms << "[ms]" << std::endl;
+        std::cout <<"X:"<< X<< "-Tiempo CPU: " << ms << "[ms]" << std::endl;
         ss << "imgCPU-X_ " << X << ".txt";
         s = ss.str();
         Write(Rhostout, Ghostout, Bhostout, M, N, s.c_str());
@@ -272,9 +272,7 @@ int main(int argc, char **argv){
     
     /*
      *  Parte GPU
-     */
-
-    
+     */    
     int grid_size, block_size = 256;
     grid_size = (int)ceil((float) M * N / block_size);
         
