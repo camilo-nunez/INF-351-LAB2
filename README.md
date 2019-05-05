@@ -15,7 +15,7 @@
 * cuda_runtime.h
 * stdio.h
 
-## Ejecucion
+## Ejecucion
 ---
 Para compilar, se debe utilizar el comando de make:
 
