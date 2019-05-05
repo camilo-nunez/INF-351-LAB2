@@ -23,6 +23,30 @@ void Read(float** R, float** G, float** B, int *M, int *N, const char *filename)
     *R = R1; *G = G1; *B = B1;
 }
 
+void Read_scanf(float** R, float** G, float** B, int *M, int *N) {    
+
+    scanf("%d %d\n", M, N); // read firts three importand values
+ 
+    int arrsize =(*M)*(*N);
+    int imsize=(*M)*(*N);
+
+    float* R1 = new float[arrsize];
+    float* G1 = new float[arrsize];
+    float* B1 = new float[arrsize];
+    
+    for(int i=0; i < imsize; ++i){ // iteration for the line with m*n float values // COLOR R
+        scanf("%f ", &(R1[i+imsize]));
+    }
+    for(int i=0; i < imsize; ++i){ // iteration for the line with m*n float values // COLOR R
+        scanf("%f ", &(G1[i+imsize]));
+    }
+    for(int i=0; i < imsize; ++i){ // iteration for the line with m*n float values // COLOR R
+        scanf("%f ", &(B1[i+imsize]));                         
+    }
+    
+    *R = R1; *G = G1; *B = B1;
+}
+
 /*
  *  Escritura Archivo
  */
@@ -168,6 +192,7 @@ void Read2(float** R, float** G, float** B, int *M, int *N,int X, const char *fi
 }
 
 
+/*
 __global__ void kernel3(float *R, float *G, float* B, float *Rout, float *Gout, float* Bout, int M, int N, int X){
     int tId= threadIdx.x+blockIdx.x*blockDim.x;
     int par, impar;
@@ -191,6 +216,7 @@ __global__ void kernel3(float *R, float *G, float* B, float *Rout, float *Gout, 
     }
     
 }
+*/
 
 
 /*
