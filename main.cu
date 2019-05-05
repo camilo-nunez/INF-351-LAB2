@@ -301,7 +301,7 @@ int main(int argc, char **argv){
         cudaEventRecord(ct2);
         cudaEventSynchronize(ct2);
         cudaEventElapsedTime(&dt, ct1, ct2);
-        std::cout << "Tiempo GPU: " << dt << "[ms]" << std::endl;
+        std::cout <<"X:"<< X<< "-Tiempo GPU: " << dt << "[ms]" << std::endl;
         ss << "imgGPU1-X_ " << X << ".txt";
         s = ss.str();
         cudaMemcpy(Rhostout, Rdevout, M * N * sizeof(float), cudaMemcpyDeviceToHost);
