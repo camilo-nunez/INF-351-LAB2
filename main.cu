@@ -457,7 +457,7 @@ int main(int argc, char **argv){
         cudaMemcpy(Bhostout, Bdevout, M * N * sizeof(float), cudaMemcpyDeviceToHost);
         Write2(Rhostout, Ghostout, Bhostout, M, N, X, s.c_str());
 
-        delete[] Rhostout; delete[] Ghostout; delete[] Bhostout;
+        
         cudaFree(Rdev); cudaFree(Gdev); cudaFree(Bdev);
         cudaFree(Rdevout); cudaFree(Gdevout); cudaFree(Bdevout);
     }
