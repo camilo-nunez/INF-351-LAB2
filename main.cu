@@ -186,24 +186,95 @@ void Read2(float** R, float** G, float** B, int *M, int *N,int X, const char *fi
     
 }
 
+/*
+ *  Escritura Archivo Modificada
+ */
+
+void Write2(float* R, float* G, float* B, int M, int N, int X, const char *filename){
+    FILE *fp;
+    fp = fopen(filename, "w");
+    fprintf(fp, "%d %d\n", M, N);
+    int prim,sec;
+    
+    for(int i = 0; i < M*N; i++){
+        if(i%N==0){
+            prim=0;
+            sec=(N)/2;
+        }        
+        if ((i%(2*X))<X){
+            fprintf(fp, "%f ", R[prim+((i/(N))*(N))]);
+            prim++;
+        }else{
+            if(i==M*N-1){
+                fprintf(fp, "%f\n", R[sec+((i/(N))*(N))]);
+            }
+            else{
+               fprintf(fp, "%f ", R[sec+((i/(N))*(N))]); 
+            }           
+            sec++;
+        }
+    }
+                   
+    for(int i = 0; i < M*N; i++){
+        if(i%(N)==0){
+            prim=0;
+            sec=(N)/2;
+        }        
+        if ((i%(2*X))<X){
+            fprintf(fp, "%f ", G[prim+((i/(N))*(N))]);
+            prim++;
+        }else{
+            if(i==M*N-1){
+                fprintf(fp, "%f\n", G[sec+((i/(N))*(N))]);
+            }
+            else{
+                fprintf(fp, "%f ", G[sec+((i/(N))*(N))]);
+            }
+            
+            sec++;
+        }
+    }
+    for(int i = 0; i < M*N; i++){
+        if(i%(N)==0){
+            prim=0;
+            sec=(N)/2;
+        }        
+        if ((i%(2*X))<X){
+            fprintf(fp, "%f ", B[prim+((i/(N))*(N))]);
+            prim++;
+        }else{
+            if(i==M*N-1){
+                fprintf(fp, "%f\n", B[sec+((i/(N))*(N))]);
+            }
+            else{
+               fprintf(fp, "%f ", B[sec+((i/(N))*(N))]); 
+            }
+            
+            sec++;
+        }
+    }
+    fclose(fp);
+}
+
 /*Pregunta 4*/
 __global__ void kernel3(float *R, float *G, float* B, float *Rout, float *Gout, float* Bout, int M, int N, int X){
     int tId= threadIdx.x+blockIdx.x*blockDim.x;
     int par, impar;
-
+    int shift=N/2;
     if(tId<M*N){
-        par=int(tId/N)*N+((2*int(tId/X))*X+tId%X)%N;
-        impar=int(tId/N)*N+(((2*int(tId/X)+1))*X+tId%X)%N;
+        par=int(tId/1024)*1024+((2*int(tId/X))*X+tId%X)%1024;
+        impar=int(tId/1024)*1024+(((2*int(tId/X)+1))*X+tId%X)%1024;
         
         if((blockIdx.x)%4 < 2){
-            Rout[impar]=R[tId]; 
-            Gout[impar]=G[tId];
-            Bout[impar]=B[tId];
+            Rout[tId+shift]=R[tId]; 
+            Gout[tId+shift]=G[tId];
+            Bout[tId+shift]=B[tId];
         }
-        else{          
-            Rout[par]=R[tId]; 
-            Gout[par]=G[tId];
-            Bout[par]=B[tId];
+        else{
+                      
+            Rout[tId-shift]=R[tId]; 
+            Gout[tId-shift]=G[tId];
+            Bout[tId-shift]=B[tId];
         }
     }
     
@@ -391,7 +462,7 @@ int main(int argc, char **argv){
         cudaMemcpy(Rhostout, Rdevout, M * N * sizeof(float), cudaMemcpyDeviceToHost);
         cudaMemcpy(Ghostout, Gdevout, M * N * sizeof(float), cudaMemcpyDeviceToHost);
         cudaMemcpy(Bhostout, Bdevout, M * N * sizeof(float), cudaMemcpyDeviceToHost);
-        Write(Rhostout, Ghostout, Bhostout, M, N, s.c_str());
+        Write2(Rhostout, Ghostout, Bhostout, M, N, X, s.c_str());
     }
 
     delete[] Rhostout; delete[] Ghostout; delete[] Bhostout;
