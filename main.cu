@@ -133,7 +133,6 @@ __global__ void kernel2(float *R, float *G, float* B, float *Rout, float *Gout, 
    
 }
 
-/*
 void Read2(float** R, float** G, float** B, int *M, int *N,int X, const char *filename){
     FILE *fp;
     fp = fopen(filename, "r");
@@ -189,19 +188,17 @@ void Read2(float** R, float** G, float** B, int *M, int *N,int X, const char *fi
 __global__ void kernel3(float *R, float *G, float* B, float *Rout, float *Gout, float* Bout, int M, int N, int X){
     int tId= threadIdx.x+blockIdx.x*blockDim.x;
     int par, impar;
+
     if(tId<M*N){
+        par=int(tId/N)*N+((2*int(tId/X))*X+tId%X)%N;
+        impar=int(tId/N)*N+(((2*int(tId/X)+1))*X+tId%X)%N;
         
-        if(blockIdx.x < 2){
-            par=2*(tId/X)*X+tId%X;
-            impar=(2*(tId/X)+1)*X+tId%X;
+        if((blockIdx.x)%4 < 2){
             Rout[impar]=R[tId]; 
             Gout[impar]=G[tId];
             Bout[impar]=B[tId];
         }
-        else{
-            
-            par=(2*(tId/X)-shift)*X+tId%X;
-            impar=((2*(tId/X)+1)-shift)*X+tId%X;            
+        else{          
             Rout[par%N]=R[tId]; 
             Gout[par%N]=G[tId];
             Bout[par%N]=B[tId];
@@ -209,7 +206,6 @@ __global__ void kernel3(float *R, float *G, float* B, float *Rout, float *Gout, 
     }
     
 }
-*/
 
 
 /*
@@ -349,12 +345,25 @@ int main(int argc, char **argv){
     }
         
     delete[] Rhostout; delete[] Ghostout; delete[] Bhostout;
+    cudaFree(Rdev); cudaFree(Gdev); cudaFree(Bdev);
+    cudaFree(Rdevout); cudaFree(Gdevout); cudaFree(Bdevout);
+    
+    cudaMalloc((void**)&Rdev, M * N * sizeof(float));
+    cudaMalloc((void**)&Gdev, M * N * sizeof(float));
+    cudaMalloc((void**)&Bdev, M * N * sizeof(float));
+    cudaMemcpy(Rdev, Rhost, M * N * sizeof(float), cudaMemcpyHostToDevice);
+    cudaMemcpy(Gdev, Ghost, M * N * sizeof(float), cudaMemcpyHostToDevice);
+    cudaMemcpy(Bdev, Bhost, M * N * sizeof(float), cudaMemcpyHostToDevice);
+        
+    cudaMalloc((void**)&Rdevout, M * N * sizeof(float));
+    cudaMalloc((void**)&Gdevout, M * N * sizeof(float));
+    cudaMalloc((void**)&Bdevout, M * N * sizeof(float));
 
     Rhostout = new float[M*N];
     Ghostout = new float[M*N];
     Bhostout = new float[M*N];
 
-    /*
+
     std::cout <<"Pregunta 4" << std::endl;
 
     //Tercer Kernel
@@ -364,6 +373,7 @@ int main(int argc, char **argv){
         cudaEventCreate(&ct1);
         cudaEventCreate(&ct2);
         cudaEventRecord(ct1);
+
         Read2(&Rhost, &Ghost, &Bhost, &M, &N, X, "imagen.txt");
 
         cudaMemcpy(Rdev, Rhost, M * N * sizeof(float), cudaMemcpyHostToDevice);
@@ -383,7 +393,10 @@ int main(int argc, char **argv){
         cudaMemcpy(Bhostout, Bdevout, M * N * sizeof(float), cudaMemcpyDeviceToHost);
         Write(Rhostout, Ghostout, Bhostout, M, N, s.c_str());
     }
-    */
+
+    delete[] Rhostout; delete[] Ghostout; delete[] Bhostout;
+    cudaFree(Rdev); cudaFree(Gdev); cudaFree(Bdev);
+    cudaFree(Rdevout); cudaFree(Gdevout); cudaFree(Bdevout);
     
 
 
