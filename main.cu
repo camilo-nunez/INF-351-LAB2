@@ -115,7 +115,7 @@ __global__ void kernel1(float *R, float *G, float* B, float *Rout, float *Gout, 
 __global__ void kernel2(float *R, float *G, float* B, float *Rout, float *Gout, float* Bout, int M, int N, int X){
     int tId= threadIdx.x+blockIdx.x*blockDim.x;
     int par, impar;
-    int shift=(M*N)/2;
+    int shift=(M*N)/2.0;
 
     if(tId<M*N){
         
