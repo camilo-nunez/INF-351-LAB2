@@ -128,6 +128,7 @@ __global__ void kernel2(float *R, float *G, float* B, float *Rout, float *Gout, 
             Bout[impar]=B[par];
         }
         else{
+            std::cout << "2" << std::endl;
             par=(2*(tId/X)-shift)*X+tId%X;
             impar=((2*(tId/X)+1)-shift)*X+tId%X;
             
