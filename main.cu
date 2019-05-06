@@ -347,6 +347,7 @@ int main(int argc, char **argv){
     Ghostout = new float[M*N];
     Bhostout = new float[M*N];
 
+    /*
     std::cout <<"Pregunta 2" << std::endl;
 
     //  Primer Kernel 
@@ -390,7 +391,7 @@ int main(int argc, char **argv){
 
     std::cout <<"Pregunta 3" << std::endl;
     
-    /*Segundo Kernel*/
+    // Segundo Kernel
 
     for( X=1; X<1024; X*=2){
         ss.str("");
@@ -430,11 +431,12 @@ int main(int argc, char **argv){
     Ghostout = new float[M*N];
     Bhostout = new float[M*N];
 
+    */
+
 
     std::cout <<"Pregunta 4" << std::endl;
 
     /*Segundo Kernel*/
-
 
     for( X=1; X<1024; X*=2){
         ss.str("");
