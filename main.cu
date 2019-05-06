@@ -216,7 +216,7 @@ int main(int argc, char **argv){
 
     int opt;
     char *filename;
-    while((opt = getopt(argc, argv, “:if:lrx”)) != -1)  
+    while((opt = getopt(argc, argv, ':if:lrx')) != -1)  
     {  
         switch(opt)  
         {  
