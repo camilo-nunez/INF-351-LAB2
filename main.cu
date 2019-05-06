@@ -194,6 +194,7 @@ void Write2(float* R, float* G, float* B, int M, int N, int X, const char *filen
     FILE *fp;
     fp = fopen(filename, "w");
     fprintf(fp, "%d %d\n", M, N);
+    //std::cout<<'Entro R\n';
     int prim,sec;
     
     for(int i = 0; i < M*N; i++){
@@ -434,19 +435,17 @@ int main(int argc, char **argv){
     std::cout <<"Pregunta 4" << std::endl;
 
     /*Segundo Kernel*/
-    
+    Read2(&Rhost, &Ghost, &Bhost, &M, &N, X, "imagen.txt");
+
+    cudaMemcpy(Rdev, Rhost, M * N * sizeof(float), cudaMemcpyHostToDevice);
+    cudaMemcpy(Gdev, Ghost, M * N * sizeof(float), cudaMemcpyHostToDevice);
+    cudaMemcpy(Bdev, Bhost, M * N * sizeof(float), cudaMemcpyHostToDevice);
+
     for( X=1; X<1024; X*=2){
         ss.str("");
         cudaEventCreate(&ct1);
         cudaEventCreate(&ct2);
         cudaEventRecord(ct1);
-
-        Read2(&Rhost, &Ghost, &Bhost, &M, &N, X, "imagen.txt");
-
-        cudaMemcpy(Rdev, Rhost, M * N * sizeof(float), cudaMemcpyHostToDevice);
-        cudaMemcpy(Gdev, Ghost, M * N * sizeof(float), cudaMemcpyHostToDevice);
-        cudaMemcpy(Bdev, Bhost, M * N * sizeof(float), cudaMemcpyHostToDevice);
-
         kernel3<<<grid_size, block_size>>>(Rdev, Gdev, Bdev, Rdevout,Gdevout,Bdevout, M, N, X);
         cudaEventRecord(ct2);
         cudaEventSynchronize(ct2);
