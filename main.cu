@@ -117,7 +117,7 @@ __global__ void kernel2(float *R, float *G, float* B, float *Rout, float *Gout, 
     int shift=(M*N)/2.0;
 
     if(tId<M*N){
-
+        printf("%f\n", (blockIdx.x)%4);
         if((blockIdx.x)%4 < 2){
             printf("1\n");
             par=2*(tId/X)*X+tId%X;
