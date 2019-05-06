@@ -122,7 +122,6 @@ void Read2(float** R, float** G, float** B, int *M, int *N,int X, const char *fi
     float* G1 = new float[imsize];
     float* B1 = new float[imsize];
 
-    std::cout<<"holi\n";
     for(int i = 0; i < imsize; i++){
         if(i%(*N)==0){
             prim=0;
@@ -161,7 +160,7 @@ void Read2(float** R, float** G, float** B, int *M, int *N,int X, const char *fi
             prim=0;
             sec=(*N)/2;
         }
-        if((i%(2*X))==0 && (i/(*N))<3){
+        if((i%(2*X))==0 && (i/(*N))<4){
                 std::cout<<(i/(*N))<<":"<<prim+((i/(*N))*(*N))<<"\n";
                                
             }
