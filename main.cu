@@ -215,18 +215,6 @@ __global__ void kernel3(float *R, float *G, float* B, float *Rout, float *Gout, 
  */
 int main(int argc, char **argv){
 
-    int opt;
-    string filename;
-    while((opt = getopt(argc, argv, ':if:lrx')) != -1)  
-    {  
-        switch(opt)  
-        {  
-            case 'f':  
-                printf('filename: %s\n', optarg);
-                break; 
-        }  
-    }
-
     /*
      *  Inicializacion
      */
@@ -242,8 +230,8 @@ int main(int argc, char **argv){
 
     
     // Lectura de datos
-    //Read(&Rhost, &Ghost, &Bhost, &M, &N, "imagen.txt");
-    Read_scanf(&Rhost, &Ghost, &Bhost, &M, &N);
+    Read(&Rhost, &Ghost, &Bhost, &M, &N, "imagen.txt");
+    //Read_scanf(&Rhost, &Ghost, &Bhost, &M, &N);
     
 
     /*
