@@ -3,7 +3,8 @@
 #include <cuda_runtime.h>
 #include <stdio.h>
 #include <sstream>
-#include <unistd.h> 
+#include <unistd.h>
+#include <string>
 
 void Read(float** R, float** G, float** B, int *M, int *N, const char *filename) {    
     FILE *fp;
@@ -215,7 +216,7 @@ __global__ void kernel3(float *R, float *G, float* B, float *Rout, float *Gout, 
 int main(int argc, char **argv){
 
     int opt;
-    char *filename;
+    string filename;
     while((opt = getopt(argc, argv, ':if:lrx')) != -1)  
     {  
         switch(opt)  
