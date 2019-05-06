@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <sstream>
 #include <unistd.h>
-#include <string>
 
 void Read(float** R, float** G, float** B, int *M, int *N, const char *filename) {    
     FILE *fp;
@@ -22,29 +21,6 @@ void Read(float** R, float** G, float** B, int *M, int *N, const char *filename)
     for(int i = 0; i < imsize; i++)
         fscanf(fp, "%f ", &(B1[i]));
     fclose(fp);
-    *R = R1; *G = G1; *B = B1;
-}
-
-void Read_scanf(float** R, float** G, float** B, int *M, int *N) {    
-
-    scanf("%d %d\n", M, N); // read firts three importand values
-
-    int imsize=(*M)*(*N);
-
-    float* R1 = new float[imsize];
-    float* G1 = new float[imsize];
-    float* B1 = new float[imsize];
-    
-    for(int i=0; i < imsize; ++i){ // iteration for the line with m*n float values // COLOR R
-        scanf("%f ", &(R1[i]));
-    }
-    for(int i=0; i < imsize; ++i){ // iteration for the line with m*n float values // COLOR R
-        scanf("%f ", &(G1[i]));
-    }
-    for(int i=0; i < imsize; ++i){ // iteration for the line with m*n float values // COLOR R
-        scanf("%f ", &(B1[i]));                         
-    }
-    
     *R = R1; *G = G1; *B = B1;
 }
 
@@ -231,7 +207,6 @@ int main(int argc, char **argv){
     
     // Lectura de datos
     Read(&Rhost, &Ghost, &Bhost, &M, &N, "imagen.txt");
-    //Read_scanf(&Rhost, &Ghost, &Bhost, &M, &N);
     
 
     /*
