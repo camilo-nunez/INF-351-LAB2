@@ -119,7 +119,7 @@ __global__ void kernel2(float *R, float *G, float* B, float *Rout, float *Gout, 
         par=int(tId/N)*N+((2*int(tId/X))*X+tId%X)%N;
         impar=int(tId/N)*N+(((2*int(tId/X)+1))*X+tId%X)%N;
         
-        if((blockIdx.x)%4 < 2){        
+        if((blockIdx.x)%4 < 2){
             Rout[impar]=R[par]; 
             Gout[impar]=G[par];
             Bout[impar]=B[par];
@@ -261,8 +261,6 @@ int main(int argc, char **argv){
         Write(Rhostout, Ghostout, Bhostout, M, N, s.c_str());
     }
     
-    
-
     delete[] Rhostout; delete[] Ghostout; delete[] Bhostout;
     
     /*
@@ -285,8 +283,6 @@ int main(int argc, char **argv){
     Rhostout = new float[M*N];
     Ghostout = new float[M*N];
     Bhostout = new float[M*N];
-
-    /*
 
     std::cout <<"Pregunta 2" << std::endl;
 
@@ -311,12 +307,23 @@ int main(int argc, char **argv){
     }
     
     delete[] Rhostout; delete[] Ghostout; delete[] Bhostout;
+    cudaFree(Rdev); cudaFree(Gdev); cudaFree(Bdev);
+    cudaFree(Rdevout); cudaFree(Gdevout); cudaFree(Bdevout);
+    
+    cudaMalloc((void**)&Rdev, M * N * sizeof(float));
+    cudaMalloc((void**)&Gdev, M * N * sizeof(float));
+    cudaMalloc((void**)&Bdev, M * N * sizeof(float));
+    cudaMemcpy(Rdev, Rhost, M * N * sizeof(float), cudaMemcpyHostToDevice);
+    cudaMemcpy(Gdev, Ghost, M * N * sizeof(float), cudaMemcpyHostToDevice);
+    cudaMemcpy(Bdev, Bhost, M * N * sizeof(float), cudaMemcpyHostToDevice);
+        
+    cudaMalloc((void**)&Rdevout, M * N * sizeof(float));
+    cudaMalloc((void**)&Gdevout, M * N * sizeof(float));
+    cudaMalloc((void**)&Bdevout, M * N * sizeof(float));
+
     Rhostout = new float[M*N];
     Ghostout = new float[M*N];
     Bhostout = new float[M*N];
-
-    */
-
 
     std::cout <<"Pregunta 3" << std::endl;
     
@@ -342,6 +349,7 @@ int main(int argc, char **argv){
     }
         
     delete[] Rhostout; delete[] Ghostout; delete[] Bhostout;
+
     Rhostout = new float[M*N];
     Ghostout = new float[M*N];
     Bhostout = new float[M*N];
