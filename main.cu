@@ -117,12 +117,8 @@ __global__ void kernel2(float *R, float *G, float* B, float *Rout, float *Gout, 
     int shift=(M*N)/2.0;
 
     if(tId<M*N){
-        printf("1\n");
-        printf("%d\n", blockIdx.x);
-        printf("%d\n", blockIdx.x);
-
-
-        if(blockIdx.x < 2){
+        
+        if(threadIdx.x < 2){
             printf("2\n");
             par=2*(tId/X)*X+tId%X;
             impar=(2*(tId/X)+1)*X+tId%X;
