@@ -25,10 +25,6 @@ Luego, para ejecutar se debe utilizar:
 
 $ time ./output
 
-en caso de usar un archivo de entrada, utilizar:
-
-$ time ./output < imagen.txt
-
 Se recomienda eliminar cualquier dependecia antes y despues de la ejecucion:
 
 $ make clean

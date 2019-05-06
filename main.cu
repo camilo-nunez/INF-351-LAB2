@@ -5,6 +5,10 @@
 #include <sstream>
 #include <unistd.h>
 
+/*
+ *  Lectura Archivo
+ */
+
 void Read(float** R, float** G, float** B, int *M, int *N, const char *filename) {    
     FILE *fp;
     fp = fopen(filename, "r");
@@ -47,6 +51,8 @@ void Write(float* R, float* G, float* B, int M, int N, const char *filename) {
 /*
  *  Procesamiento Imagen CPU
  */
+
+/*Pregunta 1*/
 void funcionCPU(float *R,float *G, float* B,int M,int N, int X,float *Rout,float* Gout,float* Bout){
     for(int i=0;i<M*N;++i){
         if((i%(2*X))<X){
@@ -66,7 +72,6 @@ void funcionCPU(float *R,float *G, float* B,int M,int N, int X,float *Rout,float
 /*
  *  Procesamiento Imagen GPU
  */
-
 
 
 /*Pregunta 2*/
@@ -111,6 +116,11 @@ __global__ void kernel2(float *R, float *G, float* B, float *Rout, float *Gout, 
    
 }
 
+/*
+ *  Lectura Archivo Modificada
+ */
+
+/*Pregunta 4*/
 void Read2(float** R, float** G, float** B, int *M, int *N,int X, const char *filename){
     FILE *fp;
     fp = fopen(filename, "r");
@@ -176,6 +186,7 @@ void Read2(float** R, float** G, float** B, int *M, int *N,int X, const char *fi
     
 }
 
+/*Pregunta 4*/
 __global__ void kernel3(float *R, float *G, float* B, float *Rout, float *Gout, float* Bout, int M, int N, int X){
     int tId= threadIdx.x+blockIdx.x*blockDim.x;
     int par, impar;
@@ -218,8 +229,7 @@ int main(int argc, char **argv){
     float *Rdevout, *Gdevout, *Bdevout;
 
     
-    // Lectura de datos
-    Read(&Rhost, &Ghost, &Bhost, &M, &N, "imagen.txt");
+    Read(&Rhost, &Ghost, &Bhost, &M, &N, "imagen.txt"); // Lectura de datos
     
 
     /*
