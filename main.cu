@@ -435,10 +435,10 @@ int main(int argc, char **argv){
 
     /*Segundo Kernel*/
 
-    Read2(&Rhost, &Ghost, &Bhost, &M, &N, X, "imagen.txt");
 
     for( X=1; X<1024; X*=2){
         ss.str("");
+        Read2(&Rhost, &Ghost, &Bhost, &M, &N, X, "imagen.txt");
         cudaEventCreate(&ct1);
         cudaEventCreate(&ct2);
         cudaEventRecord(ct1);
