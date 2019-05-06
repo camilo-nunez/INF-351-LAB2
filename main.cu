@@ -116,11 +116,10 @@ __global__ void kernel2(float *R, float *G, float* B, float *Rout, float *Gout, 
     int par, impar;
     
     if(tId<M*N){
-        par=int(tId/1024)*1024+((2*int(tId/X))*X+tId%X)%1024;
-        impar=int(tId/1024)*1024+(((2*int(tId/X)+1))*X+tId%X)%1024;
+        par=int(tId/N)*N+((2*int(tId/X))*X+tId%X)%N;
+        impar=int(tId/N)*N+(((2*int(tId/X)+1))*X+tId%X)%N;
         
         if((blockIdx.x)%4 < 2){        
-            
             Rout[impar]=R[par]; 
             Gout[impar]=G[par];
             Bout[impar]=B[par];
