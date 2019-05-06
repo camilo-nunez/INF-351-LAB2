@@ -121,7 +121,9 @@ __global__ void kernel2(float *R, float *G, float* B, float *Rout, float *Gout, 
         
         if(blockIdx.x < 2){
             par=2*(tId/X)*X+tId%X;
-            impar=(2*(tId/X)+1)*X+tId%X;          
+            impar=(2*(tId/X)+1)*X+tId%X;
+
+            printf("%f %f\n",par,impar);    
             
             Rout[impar]=R[par]; 
             Gout[impar]=G[par];
