@@ -421,26 +421,32 @@ int main(int argc, char **argv){
     /*Segundo Kernel*/
 
     for( X=1; X<1024; X*=2){
-
+         
+        //Init punteros
+        Rdevout=Gdevout=Bdevout=NULL;               
+        Rdev=Gdev=Bdev=NULL;          
+        Rhost=NULL;
+        Ghost=NULL;
+        Bhost=NULL;
+         
+        ss.str("");
+        Read2(&Rhost, &Ghost, &Bhost, &M, &N, X, "imagen.txt");
+        
+         //malloc arreglos kernel
         cudaMalloc((void**)&Rdev, M * N * sizeof(float));
         cudaMalloc((void**)&Gdev, M * N * sizeof(float));
         cudaMalloc((void**)&Bdev, M * N * sizeof(float));
+         
         cudaMemcpy(Rdev, Rhost, M * N * sizeof(float), cudaMemcpyHostToDevice);
         cudaMemcpy(Gdev, Ghost, M * N * sizeof(float), cudaMemcpyHostToDevice);
         cudaMemcpy(Bdev, Bhost, M * N * sizeof(float), cudaMemcpyHostToDevice);
-            
+         
         cudaMalloc((void**)&Rdevout, M * N * sizeof(float));
         cudaMalloc((void**)&Gdevout, M * N * sizeof(float));
         cudaMalloc((void**)&Bdevout, M * N * sizeof(float));
-
-        Rhostout = new float[M*N];
-        Ghostout = new float[M*N];
-        Bhostout = new float[M*N];
-
-
-        ss.str("");
-        Read2(&Rhost, &Ghost, &Bhost, &M, &N, X, "imagen.txt");
-        cudaEventCreate(&ct1);
+    
+        //ejecucion del kernel
+        cudaEventCreate(&ct1);         
         cudaEventCreate(&ct2);
         cudaEventRecord(ct1);
         kernel3<<<grid_size, block_size>>>(Rdev, Gdev, Bdev, Rdevout,Gdevout,Bdevout, M, N, X);
@@ -451,14 +457,23 @@ int main(int argc, char **argv){
         std::cout <<"X:"<< X<< "-Tiempo GPU: " << dt << "[ms]" << std::endl;
         ss << "imgGPU-P4-X_" << X << ".txt";
         s = ss.str();
+         
+        //escritura  en el archivo
+        Rhostout = new float[M*N];
+        Ghostout = new float[M*N];
+        Bhostout = new float[M*N];
+         
         cudaMemcpy(Rhostout, Rdevout, M * N * sizeof(float), cudaMemcpyDeviceToHost);
         cudaMemcpy(Ghostout, Gdevout, M * N * sizeof(float), cudaMemcpyDeviceToHost);
         cudaMemcpy(Bhostout, Bdevout, M * N * sizeof(float), cudaMemcpyDeviceToHost);
         Write2(Rhostout, Ghostout, Bhostout, M, N, X, s.c_str());
-
-        
+         
+         //liberacion de memoria
         cudaFree(Rdev); cudaFree(Gdev); cudaFree(Bdev);
         cudaFree(Rdevout); cudaFree(Gdevout); cudaFree(Bdevout);
+         
+        delete[] Rhost; delete[] Ghost; delete[] Bhost;
+        delete[] Rhostout; delete[] Ghostout; delete[] Bhostout;
     }
     
     return 0;
