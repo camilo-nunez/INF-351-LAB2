@@ -433,7 +433,7 @@ int main(int argc, char **argv){
 
     std::cout <<"Pregunta 4" << std::endl;
 
-    //Tercer Kernel
+    /*Segundo Kernel*/
     
     for( X=1; X<1024; X*=2){
         ss.str("");
@@ -447,7 +447,7 @@ int main(int argc, char **argv){
         cudaMemcpy(Gdev, Ghost, M * N * sizeof(float), cudaMemcpyHostToDevice);
         cudaMemcpy(Bdev, Bhost, M * N * sizeof(float), cudaMemcpyHostToDevice);
 
-        kernel3<<<grid_size, block_size>>>(Rdev, Gdev, Bdev, Rdevout,Gdevout,Bdevout, M, N, X); // Agregar parametros!
+        kernel3<<<grid_size, block_size>>>(Rdev, Gdev, Bdev, Rdevout,Gdevout,Bdevout, M, N, X);
         cudaEventRecord(ct2);
         cudaEventSynchronize(ct2);
         cudaEventElapsedTime(&dt, ct1, ct2);
@@ -465,7 +465,5 @@ int main(int argc, char **argv){
     cudaFree(Rdev); cudaFree(Gdev); cudaFree(Bdev);
     cudaFree(Rdevout); cudaFree(Gdevout); cudaFree(Bdevout);
     
-
-
     return 0;
 }
