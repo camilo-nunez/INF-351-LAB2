@@ -220,7 +220,7 @@ int main(int argc, char **argv){
     {  
         switch(opt)  
         {  
-            case ‘f’:  
+            case 'f':  
                 filename=optarg;
                 break; 
         }  
