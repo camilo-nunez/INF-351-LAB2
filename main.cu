@@ -89,6 +89,8 @@ void funcionCPU(float *R,float *G, float* B,int M,int N, int X,float *Rout,float
  *  Procesamiento Imagen GPU
  */
 
+
+
 /*Pregunta 2*/
 __global__ void kernel1(float *R, float *G, float* B, float *Rout, float *Gout, float* Bout, int M, int N, int X){
     
@@ -137,6 +139,7 @@ __global__ void kernel2(float *R, float *G, float* B, float *Rout, float *Gout, 
    
 }
 
+/*
 void Read2(float** R, float** G, float** B, int *M, int *N,int X, const char *filename){
     FILE *fp;
     fp = fopen(filename, "r");
@@ -189,8 +192,6 @@ void Read2(float** R, float** G, float** B, int *M, int *N,int X, const char *fi
     
 }
 
-
-/*
 __global__ void kernel3(float *R, float *G, float* B, float *Rout, float *Gout, float* Bout, int M, int N, int X){
     int tId= threadIdx.x+blockIdx.x*blockDim.x;
     int par, impar;
@@ -291,16 +292,17 @@ int main(int argc, char **argv){
     Ghostout = new float[M*N];
     Bhostout = new float[M*N];
 
+    /*
 
     std::cout <<"Pregunta 2" << std::endl;
 
-    /* Primer Kernel */
+    //  Primer Kernel 
     for( X=1; X<1024; X*=2){
         ss.str("");
         cudaEventCreate(&ct1);
         cudaEventCreate(&ct2);
         cudaEventRecord(ct1);
-        kernel1<<<grid_size, block_size>>>(Rdev, Gdev, Bdev, Rdevout,Gdevout,Bdevout, M, N, X); // Agregar parametros!
+        kernel1<<<grid_size, block_size>>>(Rdev, Gdev, Bdev, Rdevout,Gdevout,Bdevout, M, N, X);
         cudaDeviceSynchronize();
         cudaEventRecord(ct2);
         cudaEventSynchronize(ct2);
@@ -319,6 +321,8 @@ int main(int argc, char **argv){
     Ghostout = new float[M*N];
     Bhostout = new float[M*N];
 
+    */
+
 
     std::cout <<"Pregunta 3" << std::endl;
     
@@ -329,7 +333,7 @@ int main(int argc, char **argv){
         cudaEventCreate(&ct1);
         cudaEventCreate(&ct2);
         cudaEventRecord(ct1);
-        kernel2<<<grid_size, block_size>>>(Rdev, Gdev, Bdev, Rdevout,Gdevout,Bdevout, M, N, X); // Agregar parametros!
+        kernel2<<<grid_size, block_size>>>(Rdev, Gdev, Bdev, Rdevout,Gdevout,Bdevout, M, N, X);
         cudaEventRecord(ct2);
         cudaEventSynchronize(ct2);
         cudaEventElapsedTime(&dt, ct1, ct2);
@@ -342,22 +346,18 @@ int main(int argc, char **argv){
         cudaMemcpy(Bhostout, Bdevout, M * N * sizeof(float), cudaMemcpyDeviceToHost);
         Write(Rhostout, Ghostout, Bhostout, M, N, s.c_str());
     }
-    
-    for (int i = 1000; i < 1100; ++i)
-    {
-        std::cout<< '-'<<Rhostout[i];
-    }
-    
+        
     delete[] Rhostout; delete[] Ghostout; delete[] Bhostout;
     Rhostout = new float[M*N];
     Ghostout = new float[M*N];
     Bhostout = new float[M*N];
 
     /*
+    std::cout <<"Pregunta 4" << std::endl;
+
+    //Tercer Kernel
     
-    /*Tercer Kernel*/
-    
-    /*for( X=1; X<1024; X*=2){
+    for( X=1; X<1024; X*=2){
         ss.str("");
         cudaEventCreate(&ct1);
         cudaEventCreate(&ct2);
@@ -373,8 +373,8 @@ int main(int argc, char **argv){
         cudaEventSynchronize(ct2);
         cudaEventElapsedTime(&dt, ct1, ct2);
         cudaDeviceSynchronize();
-        std::cout << "Tiempo GPU3: " << dt << "[ms]" << std::endl;
-        ss << "imgGPU3-X_ " << X << ".txt";
+        std::cout <<"X:"<< X<< "-Tiempo GPU: " << dt << "[ms]" << std::endl;
+        ss << "imgGPU-P4-X_" << X << ".txt";
         s = ss.str();
         cudaMemcpy(Rhostout, Rdevout, M * N * sizeof(float), cudaMemcpyDeviceToHost);
         cudaMemcpy(Ghostout, Gdevout, M * N * sizeof(float), cudaMemcpyDeviceToHost);
@@ -382,6 +382,7 @@ int main(int argc, char **argv){
         Write(Rhostout, Ghostout, Bhostout, M, N, s.c_str());
     }
     */
+    
 
 
     return 0;
