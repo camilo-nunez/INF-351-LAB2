@@ -13,4 +13,4 @@ main:
 	$(CC) main.cu -o output
 
 clean: 
-	$(RM) output *.o
+	$(RM) output *.o img*
