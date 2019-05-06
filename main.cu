@@ -259,12 +259,8 @@ void Write2(float* R, float* G, float* B, int M, int N, int X, const char *filen
 /*Pregunta 4*/
 __global__ void kernel3(float *R, float *G, float* B, float *Rout, float *Gout, float* Bout, int M, int N, int X){
     int tId= threadIdx.x+blockIdx.x*blockDim.x;
-    int par, impar;
     int shift=N/2;
-    if(tId<M*N){
-        par=int(tId/1024)*1024+((2*int(tId/X))*X+tId%X)%1024;
-        impar=int(tId/1024)*1024+(((2*int(tId/X)+1))*X+tId%X)%1024;
-        
+    if(tId<M*N){        
         if((blockIdx.x)%4 < 2){
             Rout[tId+shift]=R[tId]; 
             Gout[tId+shift]=G[tId];
