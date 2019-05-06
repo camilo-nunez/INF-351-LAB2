@@ -437,10 +437,6 @@ int main(int argc, char **argv){
     /*Segundo Kernel*/
     Read2(&Rhost, &Ghost, &Bhost, &M, &N, X, "imagen.txt");
 
-    cudaMemcpy(Rdev, Rhost, M * N * sizeof(float), cudaMemcpyHostToDevice);
-    cudaMemcpy(Gdev, Ghost, M * N * sizeof(float), cudaMemcpyHostToDevice);
-    cudaMemcpy(Bdev, Bhost, M * N * sizeof(float), cudaMemcpyHostToDevice);
-
     for( X=1; X<1024; X*=2){
         ss.str("");
         cudaEventCreate(&ct1);
