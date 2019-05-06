@@ -347,7 +347,6 @@ int main(int argc, char **argv){
     Ghostout = new float[M*N];
     Bhostout = new float[M*N];
 
-    /*
     std::cout <<"Pregunta 2" << std::endl;
 
     //  Primer Kernel 
@@ -391,7 +390,7 @@ int main(int argc, char **argv){
 
     std::cout <<"Pregunta 3" << std::endl;
     
-    // Segundo Kernel
+    /*Segundo Kernel*/
 
     for( X=1; X<1024; X*=2){
         ss.str("");
@@ -416,29 +415,28 @@ int main(int argc, char **argv){
     cudaFree(Rdev); cudaFree(Gdev); cudaFree(Bdev);
     cudaFree(Rdevout); cudaFree(Gdevout); cudaFree(Bdevout);
     
-    cudaMalloc((void**)&Rdev, M * N * sizeof(float));
-    cudaMalloc((void**)&Gdev, M * N * sizeof(float));
-    cudaMalloc((void**)&Bdev, M * N * sizeof(float));
-    cudaMemcpy(Rdev, Rhost, M * N * sizeof(float), cudaMemcpyHostToDevice);
-    cudaMemcpy(Gdev, Ghost, M * N * sizeof(float), cudaMemcpyHostToDevice);
-    cudaMemcpy(Bdev, Bhost, M * N * sizeof(float), cudaMemcpyHostToDevice);
-        
-    cudaMalloc((void**)&Rdevout, M * N * sizeof(float));
-    cudaMalloc((void**)&Gdevout, M * N * sizeof(float));
-    cudaMalloc((void**)&Bdevout, M * N * sizeof(float));
-
-    Rhostout = new float[M*N];
-    Ghostout = new float[M*N];
-    Bhostout = new float[M*N];
-
-    */
-
 
     std::cout <<"Pregunta 4" << std::endl;
 
     /*Segundo Kernel*/
 
     for( X=1; X<1024; X*=2){
+        cudaMalloc((void**)&Rdev, M * N * sizeof(float));
+        cudaMalloc((void**)&Gdev, M * N * sizeof(float));
+        cudaMalloc((void**)&Bdev, M * N * sizeof(float));
+        cudaMemcpy(Rdev, Rhost, M * N * sizeof(float), cudaMemcpyHostToDevice);
+        cudaMemcpy(Gdev, Ghost, M * N * sizeof(float), cudaMemcpyHostToDevice);
+        cudaMemcpy(Bdev, Bhost, M * N * sizeof(float), cudaMemcpyHostToDevice);
+            
+        cudaMalloc((void**)&Rdevout, M * N * sizeof(float));
+        cudaMalloc((void**)&Gdevout, M * N * sizeof(float));
+        cudaMalloc((void**)&Bdevout, M * N * sizeof(float));
+
+        Rhostout = new float[M*N];
+        Ghostout = new float[M*N];
+        Bhostout = new float[M*N];
+
+
         ss.str("");
         Read2(&Rhost, &Ghost, &Bhost, &M, &N, X, "imagen.txt");
         cudaEventCreate(&ct1);
@@ -456,11 +454,12 @@ int main(int argc, char **argv){
         cudaMemcpy(Ghostout, Gdevout, M * N * sizeof(float), cudaMemcpyDeviceToHost);
         cudaMemcpy(Bhostout, Bdevout, M * N * sizeof(float), cudaMemcpyDeviceToHost);
         Write2(Rhostout, Ghostout, Bhostout, M, N, X, s.c_str());
+
+        cudaFree(Rdev); cudaFree(Gdev); cudaFree(Bdev);
+        cudaFree(Rdevout); cudaFree(Gdevout); cudaFree(Bdevout);
     }
 
     //delete[] Rhostout; delete[] Ghostout; delete[] Bhostout;
-    cudaFree(Rdev); cudaFree(Gdev); cudaFree(Bdev);
-    cudaFree(Rdevout); cudaFree(Gdevout); cudaFree(Bdevout);
     
     return 0;
 }
