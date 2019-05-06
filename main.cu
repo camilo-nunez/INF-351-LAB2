@@ -177,9 +177,9 @@ __global__ void kernel3(float *R, float *G, float* B, float *Rout, float *Gout, 
             Bout[impar]=B[tId];
         }
         else{          
-            Rout[par%N]=R[tId]; 
-            Gout[par%N]=G[tId];
-            Bout[par%N]=B[tId];
+            Rout[par]=R[tId]; 
+            Gout[par]=G[tId];
+            Bout[par]=B[tId];
         }
     }
     
