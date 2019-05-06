@@ -296,7 +296,6 @@ int main(int argc, char **argv){
     float *Rdev, *Gdev, *Bdev;
     float *Rdevout, *Gdevout, *Bdevout;
 
-    
     Read(&Rhost, &Ghost, &Bhost, &M, &N, "imagen.txt"); // Lectura de datos
     
 
@@ -435,9 +434,7 @@ int main(int argc, char **argv){
     std::cout <<"Pregunta 4" << std::endl;
 
     /*Segundo Kernel*/
-    delete[] Rhost; delete[] Ghost; delete[] Bhost;
 
-    float *Rhost, *Ghost, *Bhost;
     Read2(&Rhost, &Ghost, &Bhost, &M, &N, X, "imagen.txt");
 
     for( X=1; X<1024; X*=2){
