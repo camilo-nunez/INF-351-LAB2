@@ -108,9 +108,8 @@ __global__ void kernel1(float *R, float *G, float* B, float *Rout, float *Gout, 
             Bout[tId]=B[tId-X];
         }
     }
-    
-    
 }
+
 /*Pregunta 3*/
 __global__ void kernel2(float *R, float *G, float* B, float *Rout, float *Gout, float* Bout, int M, int N, int X){
     int tId= threadIdx.x+blockIdx.x*blockDim.x;
@@ -119,7 +118,10 @@ __global__ void kernel2(float *R, float *G, float* B, float *Rout, float *Gout, 
 
     if(tId<M*N){
         printf("1\n");
-        
+        printf("%d\n", blockIdx.x);
+        printf("%d\n", blockIdx.x);
+
+
         if(blockIdx.x < 2){
             printf("2\n");
             par=2*(tId/X)*X+tId%X;
