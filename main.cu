@@ -412,7 +412,6 @@ int main(int argc, char **argv){
     }
         
     delete[] Rhostout; delete[] Ghostout; delete[] Bhostout;
-    delete[] Rhost; delete[] Ghost; delete[] Bhost;
     cudaFree(Rdev); cudaFree(Gdev); cudaFree(Bdev);
     cudaFree(Rdevout); cudaFree(Gdevout); cudaFree(Bdevout);
     
