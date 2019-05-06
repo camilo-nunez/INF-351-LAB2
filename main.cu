@@ -422,7 +422,6 @@ int main(int argc, char **argv){
     /*Segundo Kernel*/
 
     for( X=1; X<1024; X*=2){
-        float *Rhost, *Ghost, *Bhost;
 
         cudaMalloc((void**)&Rdev, M * N * sizeof(float));
         cudaMalloc((void**)&Gdev, M * N * sizeof(float));
@@ -458,7 +457,6 @@ int main(int argc, char **argv){
         cudaMemcpy(Bhostout, Bdevout, M * N * sizeof(float), cudaMemcpyDeviceToHost);
         Write2(Rhostout, Ghostout, Bhostout, M, N, X, s.c_str());
 
-        delete[] Rhost; delete[] Ghost; delete[] Bhost;
         delete[] Rhostout; delete[] Ghostout; delete[] Bhostout;
         cudaFree(Rdev); cudaFree(Gdev); cudaFree(Bdev);
         cudaFree(Rdevout); cudaFree(Gdevout); cudaFree(Bdevout);
