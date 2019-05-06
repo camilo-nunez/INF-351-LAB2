@@ -122,20 +122,20 @@ __global__ void kernel2(float *R, float *G, float* B, float *Rout, float *Gout, 
         if(blockIdx.x < 2){
             par=2*(tId/X)*X+tId%X;
             impar=(2*(tId/X)+1)*X+tId%X;
+
+            printf("%f %f\n", par, impar);
             
-            Rout[impar%N]=R[par%N]; 
-            Gout[impar%N]=G[par%N];
-            Bout[impar%N]=B[par%N];
+            Rout[impar]=R[par]; 
+            Gout[impar]=G[par];
+            Bout[impar]=B[par];
         }
         else{
             par=(2*(tId/X)-shift)*X+tId%X;
-            impar=((2*(tId/X)+1)-shift)*X+tId%X;           
+            impar=((2*(tId/X)+1)-shift)*X+tId%X;
             
-            printf("bloque:%d accede:%d escribe:%d\n",blockIdx.x, impar%N, par%N);
-            
-            Rout[par%N]=R[impar%N]; 
-            Gout[par%N]=G[impar%N];
-            Bout[par%N]=B[impar%N];
+            Rout[par]=R[impar]; 
+            Gout[par]=G[impar];
+            Bout[par]=B[impar];
         }
     }
    
