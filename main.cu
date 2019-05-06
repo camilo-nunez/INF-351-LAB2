@@ -172,14 +172,14 @@ __global__ void kernel3(float *R, float *G, float* B, float *Rout, float *Gout, 
         impar=int(tId/N)*N+(((2*int(tId/X)+1))*X+tId%X)%N;
         
         if((blockIdx.x)%4 < 2){
-            Rout[impar]=R[tId]; 
-            Gout[impar]=G[tId];
-            Bout[impar]=B[tId];
+            Rout[impar%N]=R[tId]; 
+            Gout[impar%N]=G[tId];
+            Bout[impar%N]=B[tId];
         }
         else{          
-            Rout[par]=R[tId]; 
-            Gout[par]=G[tId];
-            Bout[par]=B[tId];
+            Rout[par%N]=R[tId]; 
+            Gout[par%N]=G[tId];
+            Bout[par%N]=B[tId];
         }
     }
     
