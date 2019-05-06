@@ -121,39 +121,57 @@ void Read2(float** R, float** G, float** B, int *M, int *N,int X, const char *fi
     float* R1 = new float[imsize];
     float* G1 = new float[imsize];
     float* B1 = new float[imsize];
-    prim=0;
-    sec=(*N)/2;
+
+    std::cout<<"holi\n";
     for(int i = 0; i < imsize; i++){
+        if(i%(*N)==0){
+            prim=0;
+            sec=(*N)/2;
+        }
         if ((i%(2*X))<X){
-            fscanf(fp, "%f ", &(R1[prim]));
+            
+            
+            fscanf(fp, "%f ", &(R1[prim+((i/(*N))*(*N))]));
             prim++;
         }
         else{
-            fscanf(fp, "%f ", &(R1[sec]));
+            fscanf(fp, "%f ", &(R1[sec+((i/(*N))*(*N))]));
+            sec++;
+        }
+
+    }
+
+    for(int i = 0; i < imsize; i++){
+        if(i%(*N)==0){
+            prim=0;
+            sec=(*N)/2;
+        }
+        if ((i%(2*X))<X){
+            fscanf(fp, "%f ", &(G1[prim+((i/(*N))*(*N))]));
+            prim++;
+        }
+        else{
+            fscanf(fp, "%f ", &(G1[sec+((i/(*N))*(*N))]));
             sec++;
         }       
     }
-    prim=0;
-    sec=(*N)/2;
+
     for(int i = 0; i < imsize; i++){
+        if(i%(*N)==0){
+            prim=0;
+            sec=(*N)/2;
+        }
+        if((i%(2*X))==0 && (i/(*N))<3){
+                std::cout<<(i/(*N))<<":"<<prim+((i/(*N))*(*N))<<"\n";
+                               
+            }
+        
         if ((i%(2*X))<X){
-            fscanf(fp, "%f ", &(G1[prim]));
+            fscanf(fp, "%f ", &(B1[prim+((i/(*N))*(*N))]));
             prim++;
         }
         else{
-            fscanf(fp, "%f ", &(G1[sec]));
-            sec++;
-        }       
-    }
-    prim=0;
-    sec=(*N)/2;
-    for(int i = 0; i < imsize; i++){
-        if ((i%(2*X))<X){
-            fscanf(fp, "%f ", &(B1[prim]));
-            prim++;
-        }
-        else{
-            fscanf(fp, "%f ", &(B1[sec]));
+            fscanf(fp, "%f ", &(B1[sec+((i/(*N))*(*N))]));
             sec++;
         }       
     }
@@ -172,9 +190,9 @@ __global__ void kernel3(float *R, float *G, float* B, float *Rout, float *Gout, 
         impar=int(tId/N)*N+(((2*int(tId/X)+1))*X+tId%X)%N;
         
         if((blockIdx.x)%4 < 2){
-            Rout[impar%N]=R[tId]; 
-            Gout[impar%N]=G[tId];
-            Bout[impar%N]=B[tId];
+            Rout[impar]=R[tId]; 
+            Gout[impar]=G[tId];
+            Bout[impar]=B[tId];
         }
         else{          
             Rout[par%N]=R[tId]; 
